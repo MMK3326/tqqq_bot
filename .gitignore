@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Node / frontend build outputs
+frontend/node_modules/
+frontend/dist/
+
+# Runtime state and logs
+logs/
+data/position.json
+data/trade_log.csv
+.dashboard-browser/
+
+# Local backups and working notes
+bak/
+260509.txt
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

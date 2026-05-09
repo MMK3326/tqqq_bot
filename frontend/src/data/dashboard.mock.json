@@ -1,0 +1,113 @@
+{
+  "appName": "MMK 자동매매 대시보드",
+  "mode": "mock",
+  "status": "WAITING",
+  "symbol": "TQQQ",
+  "marketStatus": "프리마켓",
+  "lastRunTime": "20:27:48",
+  "lastPriceTime": "20:27:48",
+  "nextRunRemaining": "59초",
+  "refreshSec": 60,
+  "topActions": [
+    { "key": "start", "label": "시작", "icon": "play", "variant": "run" },
+    { "key": "pause", "label": "일시정지", "icon": "pause", "variant": "pause" },
+    { "key": "run-once", "label": "1회 실행", "icon": "spark", "variant": "run" },
+    { "key": "refresh", "label": "새로고침", "icon": "refresh", "variant": "refresh" },
+    { "key": "close", "label": "종료", "icon": "x", "variant": "end" }
+  ],
+  "summaryCards": [
+    { "label": "현재 수익률", "value": "+2.21%", "subValue": "+$34.83", "tone": "green" },
+    { "label": "현재 단계", "value": "0단계", "subValue": "초기 진입", "tone": "blue" },
+    { "label": "현재 자금 비중", "value": "46.26%", "subValue": "", "tone": "yellow" },
+    { "label": "다음 추가매수", "value": "$70.52", "subValue": "-3.50%", "tone": "yellow" },
+    { "label": "다음 익절", "value": "$71.86", "subValue": "+0.50%", "tone": "green" },
+    { "label": "현재가", "value": "$73.08", "subValue": "TQQQ", "tone": "price" },
+    { "label": "평단가", "value": "$71.50", "subValue": "", "tone": "price" },
+    { "label": "보유 수량", "value": "22.000000", "subValue": "TQQQ", "tone": "price" }
+  ],
+  "accountRows": [
+    { "label": "총 자산", "amount": "$3,434.83", "amountClass": "green-text", "note": "+1.02%", "noteClass": "green-text", "ratio": "100.00%" },
+    { "label": "예수금", "amount": "$1,827.07", "amountClass": "", "note": "+0.00%", "noteClass": "muted", "ratio": "53.24%" },
+    { "label": "자산 매수 가능", "amount": "$2,380.00", "amountClass": "", "note": "+0.00%", "noteClass": "muted", "ratio": "70.00%" },
+    { "label": "현재 자산 투입", "amount": "$1,572.93", "amountClass": "", "note": "+0.00%", "noteClass": "muted", "ratio": "45.78%" },
+    { "label": "투입 가능 잔액", "amount": "$807.07", "amountClass": "", "note": "+0.00%", "noteClass": "muted", "ratio": "23.62%" },
+    { "label": "현재 미실현손익", "amount": "+$34.83", "amountClass": "green-text", "note": "+2.21%", "noteClass": "green-text", "ratio": "1.01%" },
+    { "label": "누적 실현손익", "amount": "+$0.00", "amountClass": "green-text", "note": "+0.00%", "noteClass": "muted", "ratio": "0.00%" },
+    { "label": "최대 자산", "amount": "$3,434.83", "amountClass": "", "note": "+0.00%", "noteClass": "muted", "ratio": "100.00%" },
+    { "label": "MDD", "amount": "0.00%", "amountClass": "", "note": "", "noteClass": "muted", "ratio": "0.00%" }
+  ],
+  "systemRows": [
+    { "label": "MODE", "value": "mock" },
+    { "label": "자산 개수", "value": "1개" },
+    { "label": "현재 시장 상태", "value": "프리마켓" },
+    { "label": "가격 테스트", "value": "mock API" },
+    { "label": "갱신 주기", "value": "60초" },
+    { "label": "마지막 주문 실행", "value": "20:27:48" },
+    { "label": "마지막 가격 업데이트", "value": "20:27:48" },
+    { "label": "다음 실행까지", "value": "API 제어" }
+  ],
+  "messages": [
+    "20:27:48  대기 중입니다.",
+    "20:27:50  현재가 조회 성공",
+    "20:27:50  SELL: 주문 실행",
+    "20:27:06  BUY: 주문 실행",
+    "20:26:06  상태 확인 완료",
+    "20:25:06  현재가 조회 성공",
+    "20:24:06  BUY: 초기 1분할 매수"
+  ],
+  "position": {
+    "symbol": "TQQQ",
+    "currentPrice": "$73.08",
+    "avgPrice": "$71.50",
+    "quantity": "22.000000",
+    "investedAmount": "$1,572.93",
+    "investedPct": "46.26%",
+    "currentProfit": "+$34.83",
+    "currentProfitPct": "+2.21%",
+    "currentStep": "0단계",
+    "firstPrice": "$73.08",
+    "rawUnitAmount": "$59.50",
+    "adjustedUnitAmount": "$73.08",
+    "unitShares": "1.000000",
+    "nextBuyPrice": "$70.52",
+    "nextBuyNote": "-3.50%",
+    "nextTakeProfitPrice": "$71.86",
+    "nextTakeProfitNote": "+0.50%",
+    "realized": "+$0.00",
+    "realizedPct": "+0.00%",
+    "tradeCount": "12",
+    "buyCount": "6",
+    "sellCount": "6",
+    "winCount": "6",
+    "lossCount": "0",
+    "winRate": "100.00%",
+    "avgCyclePct": "+0.73%",
+    "bestCyclePct": "+1.00%",
+    "worstCyclePct": "+0.52%",
+    "maxInvestPct": "46.26%"
+  },
+  "performanceRows": [
+    { "label": "완료 사이클", "value": "6" },
+    { "label": "총 매수", "value": "6" },
+    { "label": "총 매도", "value": "6" },
+    { "label": "누적 실현손익", "value": "+$0.00", "tone": "green" },
+    { "label": "누적 수익률", "value": "+0.00%", "tone": "green" },
+    { "label": "승률", "value": "100.00%", "tone": "green" },
+    { "label": "평균 사이클 수익률", "value": "+0.73%", "tone": "green" },
+    { "label": "최고 사이클 수익률", "value": "+1.00%", "tone": "green" },
+    { "label": "최저 사이클 수익률", "value": "+0.52%", "tone": "green" },
+    { "label": "최대 자금 비중", "value": "70.00%" },
+    { "label": "현재 자금 비중", "value": "46.26%" },
+    { "label": "MDD", "value": "0.00%" }
+  ],
+  "tradeTabs": [
+    { "key": "trades", "label": "최근 거래 로그" },
+    { "key": "messages", "label": "상태 메시지" }
+  ],
+  "trades": [
+    { "time": "20:27:50", "action": "SELL", "symbol": "TQQQ", "price": "$71.57", "quantity": "1.000000", "amount": "$71.57", "avgPrice": "$70.86", "profitPct": "+1.00%", "step": "0", "reason": "평단가 대비 +0.5% 익절" },
+    { "time": "20:27:06", "action": "BUY", "symbol": "TQQQ", "price": "$71.57", "quantity": "1.000000", "amount": "$71.57", "avgPrice": "$71.57", "profitPct": "0.00%", "step": "0", "reason": "초기 1분할 매수" },
+    { "time": "20:06:22", "action": "SELL", "symbol": "TQQQ", "price": "$72.41", "quantity": "1.000000", "amount": "$72.41", "avgPrice": "$71.97", "profitPct": "+0.61%", "step": "0", "reason": "평단가 대비 +0.5% 익절" },
+    { "time": "19:43:11", "action": "BUY", "symbol": "TQQQ", "price": "$70.90", "quantity": "1.000000", "amount": "$70.90", "avgPrice": "$70.90", "profitPct": "0.00%", "step": "0", "reason": "초기 1분할 매수" }
+  ]
+}
