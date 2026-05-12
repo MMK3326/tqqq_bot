@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import config, db
 from .api import dashboard as dashboard_api
+from .api import history as history_api
 from .api import positions as positions_api
 from .api import strategies as strategies_api
 
@@ -54,6 +55,7 @@ app.add_middleware(
 
 app.include_router(positions_api.router)
 app.include_router(strategies_api.router)
+app.include_router(history_api.router)
 app.include_router(dashboard_api.router)
 
 

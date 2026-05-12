@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pause, Play, RefreshCw, X, Zap } from 'lucide-react';
+import { AlertOctagon, Pause, Play, RefreshCw, ShieldCheck, X, Zap } from 'lucide-react';
 
 const ICONS = {
   play: Play,
@@ -10,59 +10,55 @@ const ICONS = {
 };
 
 const ACTION_LABELS = {
-  start: '\uc2dc\uc791',
-  pause: '\uc77c\uc2dc\uc815\uc9c0',
-  'run-once': '1\ud68c \uc2e4\ud589',
-  refresh: '\uc0c8\ub85c\uace0\uce68',
-  close: '\uc885\ub8cc',
+  start: '시작',
+  pause: '일시정지',
+  'run-once': '1회 실행',
+  refresh: '새로고침',
+  close: '종료',
+  'kill-switch': '비상 정지',
+  'kill-switch-reset': '비상 정지 해제',
 };
 
 const TEXT = {
   title: 'MMK AUTO TRAINING DASHBOARD',
-  mode: '\ubaa8\ub4dc',
-  market: '\uc2dc\uc7a5',
-  symbolCount: '\uc6b4\uc6a9 \uc2ec\ubcfc',
-  status: '\uc0c1\ud0dc',
-  busy: '\ucc98\ub9ac \uc911',
+  mode: '모드',
+  market: '시장',
+  symbolCount: '운용 심볼',
+  status: '상태',
+  killSwitchActive: '비상정지',
+  busy: '처리 중',
 };
 
 function formatClock(value) {
-  const pad = (number) => String(number).padStart(2, '0');
-  const year = value.getFullYear();
-  const month = pad(value.getMonth() + 1);
-  const day = pad(value.getDate());
-  const hours = pad(value.getHours());
-  const minutes = pad(value.getMinutes());
-  const seconds = pad(value.getSeconds());
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())} ${pad(value.getHours())}:${pad(value.getMinutes())}:${pad(value.getSeconds())}`;
 }
 
 function formatMode(value) {
   const normalized = String(value || '').trim().toLowerCase();
   if (normalized === 'mock') return 'Mock';
-  if (normalized === 'paper' || normalized === 'paper-trading') return '\ubaa8\uc758\ud22c\uc790';
-  if (normalized === 'real' || normalized === 'live') return '\uc2e4\uac70\ub798';
-  if (normalized === 'backtest' || normalized === 'backtesting') return '\ubc31\ud14c\uc2a4\ud2b8';
+  if (normalized === 'paper' || normalized === 'paper-trading') return '모의투자';
+  if (normalized === 'real' || normalized === 'live') return '실거래';
   return value || 'Mock';
 }
 
 function formatMarket(value) {
   const raw = String(value || '').trim();
   const normalized = raw.toLowerCase();
-  if (normalized.includes('regular') || raw.includes('\uc815\uaddc')) return '\uc815\uaddc\uc7a5';
-  if (normalized.includes('pre') || raw.includes('\ud504\ub9ac')) return '\ud504\ub9ac\ub9c8\ucf13';
-  if (normalized.includes('after') || raw.includes('\uc560\ud504\ud130')) return '\uc560\ud504\ud130\ub9c8\ucf13';
-  if (normalized.includes('closed') || normalized.includes('close') || raw.includes('\ud734\uc7a5')) return '\ud734\uc7a5';
+  if (normalized.includes('regular') || raw.includes('정규')) return '정규장';
+  if (normalized.includes('pre') || raw.includes('프리')) return '프리마켓';
+  if (normalized.includes('after') || raw.includes('애프터')) return '애프터마켓';
+  if (normalized.includes('closed') || normalized.includes('close') || raw.includes('휴장')) return '휴장';
   return raw || '-';
 }
 
 function formatStatus(value) {
   const normalized = String(value || '').trim().toLowerCase();
-  if (normalized === 'running') return '\uc2e4\ud589\uc911';
-  if (normalized === 'waiting' || normalized === 'idle') return '\ub300\uae30';
-  if (normalized === 'stopped' || normalized === 'stop') return '\uc815\uc9c0';
-  if (normalized === 'error') return '\uc624\ub958';
-  return value || '\ub300\uae30';
+  if (normalized === 'running') return '실행중';
+  if (normalized === 'waiting' || normalized === 'idle') return '대기';
+  if (normalized === 'stopped' || normalized === 'stop') return '정지';
+  if (normalized === 'error') return '오류';
+  return value || '대기';
 }
 
 function getSymbolCount(data) {
@@ -75,23 +71,31 @@ export default function Toolbar({ data, onAction, busyAction = null }) {
   const buttonsDisabled = Boolean(busyAction);
   const [clock, setClock] = useState(() => formatClock(new Date()));
   const status = data.status || 'WAITING';
+  const killSwitch = data.killSwitch || { active: false };
+
   const systemItems = [
     [TEXT.mode, formatMode(data.mode)],
     [TEXT.market, formatMarket(data.marketStatus)],
-    [TEXT.symbolCount, `${getSymbolCount(data)}\uac1c`],
+    [TEXT.symbolCount, `${getSymbolCount(data)}개`],
     [TEXT.status, formatStatus(status)],
+    ...(killSwitch.active ? [[TEXT.killSwitchActive, '활성']] : []),
   ];
 
   useEffect(() => {
-    const timerId = globalThis.setInterval(() => {
-      setClock(formatClock(new Date()));
-    }, 1000);
-
+    const timerId = globalThis.setInterval(() => setClock(formatClock(new Date())), 1000);
     return () => globalThis.clearInterval(timerId);
   }, []);
 
+  function handleKillSwitch() {
+    if (killSwitch.active) {
+      onAction?.('kill-switch-reset');
+    } else if (globalThis.confirm('비상 정지를 활성화하면 모든 자동매매 주문이 차단됩니다.\n계속하시겠습니까?')) {
+      onAction?.('kill-switch');
+    }
+  }
+
   return (
-    <header className="dashboard-header">
+    <header className={`dashboard-header${killSwitch.active ? ' kill-switch-active' : ''}`}>
       <div className="dashboard-title-row">
         <div className="dashboard-title">
           <h1>{TEXT.title}</h1>
@@ -99,10 +103,20 @@ export default function Toolbar({ data, onAction, busyAction = null }) {
         <time className="dashboard-clock" dateTime={clock}>{clock}</time>
       </div>
 
+      {killSwitch.active && (
+        <div className="kill-switch-banner">
+          <AlertOctagon size={14} />
+          <span>비상 정지 활성 {killSwitch.reason ? `— ${killSwitch.reason}` : ''}</span>
+        </div>
+      )}
+
       <div className="dashboard-control-row">
-        <div className="header-pill-group" aria-label="\uc2e4\ud589 \uc0c1\ud0dc">
+        <div className="header-pill-group" aria-label="실행 상태">
           {systemItems.map(([label, value]) => (
-            <div className="header-pill" key={label}>
+            <div
+              className={`header-pill${label === TEXT.killSwitchActive ? ' header-pill-danger' : ''}`}
+              key={label}
+            >
               <span>{label}</span>
               <strong>{value}</strong>
             </div>
@@ -113,7 +127,7 @@ export default function Toolbar({ data, onAction, busyAction = null }) {
           <div className={`toolbar-status ${status === 'RUNNING' ? 'is-running' : ''}`} aria-label={`자동매매 상태 ${status}`}>
             <span className="toolbar-status-dot" />
           </div>
-          {data.topActions.map((action) => {
+          {(data.topActions || []).map((action) => {
             const Icon = ICONS[action.icon] || Play;
             const isBusy = busyAction === action.key;
             return (
@@ -130,6 +144,21 @@ export default function Toolbar({ data, onAction, busyAction = null }) {
               </button>
             );
           })}
+
+          <div className="toolbar-divider" />
+
+          <button
+            type="button"
+            className={`toolbar-button toolbar-button-ks ${killSwitch.active ? 'ks-on' : 'ks-off'}`}
+            title={killSwitch.active ? ACTION_LABELS['kill-switch-reset'] : ACTION_LABELS['kill-switch']}
+            aria-label={killSwitch.active ? ACTION_LABELS['kill-switch-reset'] : ACTION_LABELS['kill-switch']}
+            disabled={busyAction === 'kill-switch' || busyAction === 'kill-switch-reset'}
+            onClick={handleKillSwitch}
+          >
+            {killSwitch.active
+              ? <ShieldCheck size={13} strokeWidth={2.2} />
+              : <AlertOctagon size={13} strokeWidth={2.2} />}
+          </button>
         </div>
       </div>
     </header>
