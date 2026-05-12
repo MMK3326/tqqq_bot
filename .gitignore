@@ -11,7 +11,16 @@ frontend/dist/
 logs/
 data/position.json
 data/trade_log.csv
+data/*.db
+*.db
 .dashboard-browser/
+.yfinance_cache/
+
+# Secrets
+.env
+
+# Claude Code workspace
+.claude/
 
 # Local backups and working notes
 bak/
